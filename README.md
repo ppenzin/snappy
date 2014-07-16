@@ -1,0 +1,4 @@
+snappy
+======
+
+Batch install tool

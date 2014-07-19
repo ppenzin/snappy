@@ -2,7 +2,7 @@
     Dependencies:
     - pkgng
  -}
-module Snappy.Platforms.FreeBSD where
+module Snappy.Platform.FreeBSD where
 
 import Snappy
 import System.Directory
@@ -18,8 +18,10 @@ data Port = Port { category :: String, packageName :: String }
 
 instance Thing Port where
   instantiate p =
-    setCurrentDirectory $ portsRoot
-       ++ "/" ++ (category p) ++ "/" ++ (packageName p)
+    (setCurrentDirectory $ portsRoot
+       ++ "/" ++ (category p) ++ "/" ++ (packageName p))
+    >> rawSystem "make" ["install", "clean"]
+    >> return () -- TODO throw exceptions
   isPresent p =
     isPresent (Package {name = packageName p})
 
@@ -29,7 +31,7 @@ data Package = Package { name :: String }
 instance Thing Package where
   instantiate p =
     rawSystem "pkg" ["install", name p] 
-    >> return ()
+    >> return () -- TODO throw exceptions
   isPresent p =
     rawSystem "pkg" ["info", "-e", name p] 
     >>= return . ( == ExitSuccess)

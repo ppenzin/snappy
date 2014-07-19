@@ -26,3 +26,19 @@ instance (Thing a) => Thing [a] where
   instantiate xs = shuffle xs >>= install
     where install (x:xs) = ensure x >> install xs
           install []     = return ()
+
+{-|Order of dependencies
+   `from' element with be treated befor the `to'
+   element
+ -}
+data Arrow a b = Arrow {from :: a, to :: b}
+
+{-|Infix operator to create dependency ordering -}
+(~>) :: a -> b -> (Arrow a b)
+x ~> y = Arrow { from = x, to = y}
+
+{-|Execution instance for ordered dependencies
+ -}
+instance (Thing a, Thing b) => Thing (Arrow a b) where
+  isPresent a = isPresent (from a) >>= \t -> if t then isPresent (to a) else return False
+  instantiate a = ensure (from a) >> ensure (to a)

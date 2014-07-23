@@ -1,3 +1,4 @@
+{-# LANGUAGE ExistentialQuantification #-}
 {-| Snappy -- library of various system installation primitives
   -}
 module Snappy where
@@ -11,9 +12,18 @@ class Thing a where
   isPresent           :: a -> IO Bool
   ensure x            = isPresent x >>= \a -> if a then return() else instantiate x 
 
-{-|List of things
-   is a collection without dependencies
-   all of them will get instanciated
+{-|Container for Thing which hides the actual type instance
+ -}
+data SomeThing = forall a. (Thing a) => Some a 
+
+{-|Obvious instance of Thing for its container
+ -}
+instance Thing (SomeThing) where
+  isPresent (Some x) = isPresent x
+  instantiate (Some x) = instantiate x
+
+{-|Collection without dependencies
+   all of the elements will get instanciated
    together, but no particular order is
    enforced. Collection is shuffled before
    taking any action.

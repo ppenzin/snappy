@@ -9,8 +9,9 @@ import Snappy
 
 {-|Miscelanneous things for personal use -}
 misc = [
-        Port {category = "editors", packageName = "vim"},
-        Port {category = "security", packageName = "sudo"}
+        Some Port {category = "editors", packageName = "vim"},
+        Some Port {category = "security", packageName = "sudo"},
+        Some FileLine {filePath = "/etc/sysctl.conf", lineText = "hw.syscons.bell=0", comment = "# Disable system beep"}
        ]
 
 {-|Compaq Presario V6000 drivers-}

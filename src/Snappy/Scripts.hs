@@ -20,7 +20,7 @@ compaqPresarioV6000 = [
                       ]
 broadcom = Port {category = "net", packageName = "bwi-firmware-kmod"}
            ~>
-           FileLine {filePath = "/etc/loader.conf", lineText = "if_bwi_load=\"YES\"", comment = "# Enable Broadcom driver" }
+           FileLine {filePath = "/boot/loader.conf", lineText = "if_bwi_load=\"YES\"", comment = "# Enable Broadcom driver" }
 
 {-|FreeBSD minimal desktop (see FreeBSD forums) -}
 minimalDesktop = [

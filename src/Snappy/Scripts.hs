@@ -33,8 +33,8 @@ broadcom = Port {category = "net", packageName = "bwi-firmware-kmod"}
            FileLine {filePath = "/etc/rc.conf", lineText = "ifconfig_wlan0=\"WPA DHCP\"", comment = "# Confgure wireless wia wpa_supplicant and DHCP" }
 
 {-|FreeBSD minimal desktop (see FreeBSD forums) -}
-minimalDesktop = [
-                  Port {category = "ports-mgmt", packageName = "portmaster"}
-                 ]
+minimalDesktop = Port {category = "ports-mgmt", packageName = "portmaster"}
+                 ~>
+                 File {path = "/usr/local/etc/portmaster.rc", sourcePath = "portmaster.rc.file" }
 
 script = [Some misc, Some compaqPresarioV6000, Some minimalDesktop]

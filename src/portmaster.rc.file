@@ -1,0 +1,20 @@
+# Always delete stale distfiles without prompting (-d)
+ALWAYS_SCRUB_DISTFILES=dopt
+
+# Be verbose (-v)
+PM_VERBOSE=vopt
+
+# Install packages for build-only dependencies (--packages-build)
+PM_PACKAGES_BUILD=pmp_build
+
+# Delete build-only dependencies when finished (--delete-build-only)
+PM_DEL_BUILD_ONLY=pm_dbo
+
+# Suppress the build confirmation message (--no-confirm)
+PM_NO_CONFIRM=pm_no_confirm
+
+# If building as an unprivileged user and you have SU_CMD in make.conf(5).
+# Note: portmaster does not provide command as a single argument, i.e.
+# if your make.conf(5) specifies `SU_CMD=sudo -E sh -c`, then the correct
+# corresponding portmaster configuration is `PM_SU_CMD=sudo`.
+PM_SU_CMD=sudo

@@ -12,9 +12,9 @@ sudo ./install
 
 ### TODO
 * Implement list shuffle
-* Auto configuration for ports
-* Implement creating (copying) a config file
+* Auto configuration for ports -- config is dune, need to disable the screen
 
 ### In testing
 * Provide infix operator for dependency ordering
 * Implement adding a line to a config file
+* Implement creating (copying) a config file

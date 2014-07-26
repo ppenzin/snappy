@@ -32,10 +32,10 @@ instance Thing Port where
 --     putStrLn ("Extra options: " ++ show(allArguments))
     (setCurrentDirectory $ portsRoot
        ++ "/" ++ (category p) ++ "/" ++ (packageName p))
-    >> rawSystem "make" allArguments
+    >> rawSystem "make" (extraOpts ++ ["config-recursive"]) -- TODO automate
+    >> rawSystem "make" ["install", "clean"]
     >> return () -- TODO throw exceptions
-    where allArguments = (extraOpts ++ ["install", "clean"])
-          extraOpts = optsArg "WITH" (withOpts p) ++
+    where extraOpts = optsArg "WITH" (withOpts p) ++
                       optsArg "WITHOUT" (withoutOpts p)
           optsArg name opts = if opts == [] then [] else [makeOpt name opts]
           makeOpt name opts = name ++ "=" ++ optsStr opts

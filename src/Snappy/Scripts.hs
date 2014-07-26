@@ -30,13 +30,29 @@ broadcom = port {category = "net", packageName = "bwi-firmware-kmod"}
            ~>
            FileLine {filePath = "/etc/rc.conf", lineText = "wlans_bwi0=\"wlan0\"", comment = "# Network interface for Broadcom driver" }
            ~>
-           FileLine {filePath = "/etc/rc.conf", lineText = "ifconfig_wlan0=\"WPA DHCP\"", comment = "# Confgure wireless wia wpa_supplicant and DHCP" }
+           FileLine {filePath = "/etc/rc.conf", lineText = "ifconfig_wlan0=\"WPA DHCP\"", comment = "# Confgure wireless via wpa_supplicant and DHCP" }
 
 {-|FreeBSD minimal desktop (see FreeBSD forums) -}
-minimalDesktop = port {category = "ports-mgmt", packageName = "portmaster"}
-                 ~>
-                 File {path = "/usr/local/etc/portmaster.rc", sourcePath = "portmaster.rc.file" }
-                 ~>
-                 port {category = "x11-servers", packageName = "xorg-server", withOpts = ["DEVD"], withoutOpts = ["HAL"]} -- TODO separate X and portmaster
+minimalDesktop = [Some portmaster, Some xStuff]
+portmaster = port {category = "ports-mgmt", packageName = "portmaster"}
+             ~>
+             File {
+                    path = "/usr/local/etc/portmaster.rc",
+                    sourcePath = "portmaster.rc.file"
+                  }
+
+xStuff = port {
+                category = "x11-servers",
+                packageName = "xorg-server",
+                withOpts = ["DEVD"],
+                withoutOpts = ["HAL"]
+              }
+         ~>
+         port {
+                category = "x11-drivers",
+                packageName = "xorg-drivers",
+                withOpts = ["MOUSE", "KEYBOARD", "VESA"],
+                withoutOpts = ["ACECAD", "APM", "ARK", "ATI", "CHIPS", "CYRIX", "DUMMY", "ELOGRAPHICS", "FBDEV", "GLINT", "HYPERPEN", "I128", "I740", "INTEL", "JOYSTICK", "MACH64", "MAGICTOUCH", "MGA", "MUTOUCH", "NEOMAGIC", "NEWPORT", "NV", "OPENCHROME", "PENMOUNT", "R128", "RENDITION", "S3", "S3VIRGE", "SAVAGE", "SILICONMOTION", "SIS", "SYNAPTICS", "TDFX", "TGA", "TRIDENT", "TSENG", "VMMOUSE", "VMWARE", "VOID", "VOODOO", "WACOM"]
+              }
 
 script = [Some misc, Some compaqPresarioV6000, Some minimalDesktop]

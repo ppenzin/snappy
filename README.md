@@ -1,7 +1,14 @@
 snappy
 ======
 
-Batch install tool
+Batch install tool. As of now it is aiming at installing
+FreeBSD minimal desktop on Copmaq Presario V6000
+
+To compile and run;
+```
+cd src && ghc Main.hs -o install
+sudo ./install
+```
 
 ### TODO
 * Implement list shuffle

@@ -12,7 +12,17 @@ import System.Directory
  -}
 data File = File { path :: String, sourcePath :: String }
 
-{- TODO implement instance of Thing for it -}
+{- Instance of Thing for it -}
+instance Thing File where 
+  instantiate f = copyFile (sourcePath f) (path f)
+  isPresent f = doesFileExist thePath
+            >>= \yes -> if yes then compareFiles
+                        else return False
+    where thePath = path f
+          srcPath = sourcePath f
+          compareFiles = readFile thePath
+                     >>= \content -> readFile srcPath
+                     >>= \src -> return (content == src) -- TODO improve
 
 {-|Add a single line to a file
    filePath -- path to the file
@@ -28,13 +38,19 @@ data FileLine = FileLine { filePath :: String,
  -}
 instance Thing (FileLine) where
   {-|Line is present if there is its exact match in the file-}
-  isPresent l = doesFileExist thePath >>= \yes -> if yes then (readFile thePath >>= return . match . lines) else return False
+  isPresent l = doesFileExist thePath
+            >>= \yes -> if yes then (
+                  readFile thePath >>= return . findMatch
+                ) else return False
     where thePath = filePath l
+          findMatch xs = forceRead xs `seq` (match (lines xs))
           match [] = False
           match (x:xs) = if (x == (lineText l)) then True else (match xs)
+          forceRead [] = ()
+          forceRead (x:xs) = forceRead xs
   {-|Comment is appended first, then line, both 'as-is'-}
   instantiate l = doesFileExist thePath
-              >>= \yes -> return (if yes then WriteMode else AppendMode)
+              >>= \yes -> return (if yes then AppendMode else WriteMode)
               >>= \mode -> openFile thePath mode
               >>= \handle -> hPutStr handle (toAppend (lineText l) (comment l))
                >> hClose handle

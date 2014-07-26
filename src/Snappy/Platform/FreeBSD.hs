@@ -35,3 +35,4 @@ instance Thing Package where
   isPresent p =
     rawSystem "pkg" ["info", "-e", name p] 
     >>= return . ( == ExitSuccess)
+

@@ -1,6 +1,7 @@
 {-| FreeBSD primitives 
     Dependencies:
     - pkgng
+    - optionsNG
  -}
 module Snappy.Platform.FreeBSD where
 
@@ -13,17 +14,39 @@ import System.Exit
 portsRoot :: String
 portsRoot =  "/usr/ports"
 
--- |A port defenition
-data Port = Port { category :: String, packageName :: String }
+{-|A port defenition
+  category - category, such as www
+  packageName - name, such as opera
+  withOpts - options to enable (from OptionsNG)
+  withoutOpts - options to disable (from OptionsNG)
+ -}
+data Port = Port {
+                   category :: String,
+                   packageName :: String,
+                   withOpts :: [String],
+                   withoutOpts :: [String]
+                 }
 
 instance Thing Port where
   instantiate p =
+--     putStrLn ("Extra options: " ++ show(allArguments))
     (setCurrentDirectory $ portsRoot
        ++ "/" ++ (category p) ++ "/" ++ (packageName p))
-    >> rawSystem "make" ["install", "clean"]
+    >> rawSystem "make" allArguments
     >> return () -- TODO throw exceptions
+    where allArguments = (extraOpts ++ ["install", "clean"])
+          extraOpts = optsArg "WITH" (withOpts p) ++
+                      optsArg "WITHOUT" (withoutOpts p)
+          optsArg name opts = if opts == [] then [] else [makeOpt name opts]
+          makeOpt name opts = name ++ "=" ++ optsStr opts
+          optsStr [] = ""
+          optsStr (x:xs) = x ++ (\s -> if s == "" then "" else " " ++ s)(optsStr xs)
   isPresent p =
     isPresent (Package {name = packageName p})
+
+{-|Port with a default configuration
+ -}
+port = Port { category = "", packageName = "", withOpts = [], withoutOpts = []}
 
 -- |A package defenition
 data Package = Package { name :: String }

@@ -4,6 +4,7 @@ module Snappy.System where
 
 import Snappy
 import System.IO
+import System.Cmd
 import System.Directory
 
 {-|Something to manage file contents
@@ -56,3 +57,24 @@ instance Thing (FileLine) where
                >> hClose handle
     where thePath = filePath l
           toAppend line comment = (if comment /= "" then ("\n" ++ comment) else "" ) ++ "\n" ++ line ++ "\n" -- TODO system newlines
+
+{-| A generated file, such as XOrg config
+ -}
+data GeneratedFile = GeneratedFile {
+                       genFilePath :: String,
+                       genFileCmd :: String,
+                       genFileCmdOpts :: [String]
+                     }
+
+instance Thing (GeneratedFile) where
+  instantiate gf = rawSystem (genFileCmd gf) (genFileCmdOpts gf)
+                >> return ()
+  isPresent gf = doesFileExist (genFilePath gf)
+
+-- |A command to run
+data Command = Command { cmd :: String, opts :: [String] }
+instance Thing Command where
+  isPresent c  = return False
+  instantiate c = rawSystem (cmd c) (opts c) >> return ()
+
+command = Command { cmd = undefined, opts = []}

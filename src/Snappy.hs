@@ -52,3 +52,16 @@ x ~> y = Arrow { from = x, to = y}
 instance (Thing a, Thing b) => Thing (Arrow a b) where
   isPresent a = isPresent (from a) >>= \t -> if t then isPresent (to a) else return False
   instantiate a = ensure (from a) >> ensure (to a)
+
+{-|Conditional installation
+  Before instantiating it will check the condition
+  (can be user prompt, hardware scan, etc)
+ -}
+data Conditional a = Conditional {condition :: IO Bool, subject :: a}
+
+instance (Thing a) => Thing (Conditional a) where
+  isPresent c = isPresent (subject c)
+  instantiate c = (condition c)
+              >>= \needed -> if needed then (instantiate (subject c))
+                                       else return ()
+

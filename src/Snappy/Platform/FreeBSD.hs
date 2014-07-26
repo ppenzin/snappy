@@ -27,12 +27,15 @@ data Port = Port {
                    withoutOpts :: [String]
                  }
 
+-- TODO automate: set a configuration and force its use
+-- need to confirm, but WITH and WITHOUT syntax is able
+-- turn options on and off, -DBATCH flag should force it
 instance Thing Port where
   instantiate p =
 --     putStrLn ("Extra options: " ++ show(allArguments))
     (setCurrentDirectory $ portsRoot
        ++ "/" ++ (category p) ++ "/" ++ (packageName p))
-    >> rawSystem "make" (extraOpts ++ ["config-recursive"]) -- TODO automate
+    >> rawSystem "make" (extraOpts ++ ["config-recursive"]) 
     >> rawSystem "make" ["install", "clean"]
     >> return () -- TODO throw exceptions
     where extraOpts = optsArg "WITH" (withOpts p) ++

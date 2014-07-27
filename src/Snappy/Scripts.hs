@@ -118,11 +118,97 @@ xStuff = port {
                        subject = nvXConf
                      }
          ~>
-         openBox
+         port {
+                category = "x11-wm",
+                packageName = "openbox"
+              }
+         -- TODO add support for configuration, had to do it by hand --
+         ~>
+         port {
+                category = "deskutils",
+                packageName = "pypanel"
+              }
+         ~>
+         port {
+                category = "x11",
+                packageName = "xterm"
+              }
+         ~>
+         port {
+                category = "x11",
+                packageName = "rxvt-unicode"
+              }
+         -- TODO per-user daemon start up --
+         ~>
+         port {
+                category = "sysutils",
+                packageName = "automount"
+              }
+         ~>
+         File {
+                path = "/usr/local/etc/automount.conf",
+                sourcePath = "automount.conf.file"
+              }
+         ~>
+         port {
+                category = "sysutils",
+                packageName = "fusefs-ntfs"
+              }
+         ~>
+         FileLine {
+                     filePath = "/boot/loader.conf",
+                     lineText = "fuse_load=\"YES\"",
+                     comment ="# Enable fusefs-ntfs"
+                   }
+         ~>
+         [ -- other usefull stuff
+           port {
+                  category = "graphics",
+                  packageName = "feh"
+                },
+           port { -- TODO should be optional?
+                  category = "x11",
+                  packageName = "setxkbmap"
+                },
+           port {
+                  category = "x11",
+                  packageName = "xscreensaver"
+                },
+           port {
+                  category = "x11",
+                  packageName = "xrootconsole"
+                },
+           port { -- TODO should be optional
+                  category = "sysutils",
+                  packageName = "xbattbar"
+                },
+           port {
+                  category = "www",
+                  packageName = "opera"
+                },
+           port {
+                  category = "multimedia",
+                  packageName = "mplayer"
+                },
+           port {
+                  category = "graphics",
+                  packageName = "mupdf"
+                }
+         ]
+         ~>
+         xdm
 
+xdm = port {
+             category = "x11",
+             packageName = "xdm"
+           }
+-- TODO ~> change to /etc/ttys
+
+
+-- TODO can detection of the driver be automated?
 nvDriver = port {
                   category = "x11",
-                  packageName = "nvidia-driver",
+                  packageName = "nvidia-driver-304",
                   withoutOpts = ["LINUX"]
                 }
 
@@ -139,11 +225,6 @@ nvXConf = port {
                      lineText = "nvidia_load=\"YES\"",
                      comment ="# Enable NVIDIA "
                    }
-
-openBox = port {
-                 category = "x11-wm",
-                 packageName = "openbox"
-               }
 
 script = [Some misc, Some compaqPresarioV6000, Some minimalDesktop]
 

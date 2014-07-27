@@ -14,6 +14,10 @@ import System.Exit
 portsRoot :: String
 portsRoot =  "/usr/ports"
 
+-- |Users base directory
+usersBase :: String
+usersBase =  "/home"
+
 {-|A port defenition
   category - category, such as www
   packageName - name, such as opera
@@ -62,3 +66,14 @@ instance Thing Package where
     rawSystem "pkg" ["info", "-e", name p] 
     >>= return . ( == ExitSuccess)
 
+{-|A file in user's home directory
+ -}
+data UserFile = UserFile { relativePath :: String, absSrcPath :: String}
+
+{- TODO an instance of thing for it -}
+
+{-|Run some IO computation of every user directry
+   get a list of results
+ -}
+forEveryUser :: (String -> IO a) -> IO [a]
+forEveryUser f = undefined

@@ -1,8 +1,8 @@
 snappy
 ======
 
-Intention: batch installation tool. Right now congifures [md][FreeBSD minimal
-desktop] on Compaq Presario V6000.
+Intention: batch installation tool. Right now congifures [FreeBSD minimal
+desktop][md] on Compaq Presario V6000.
 
 To compile and run;
 ```
@@ -20,7 +20,7 @@ to be edited:
 ~/.config/openbox/rc.xml
 ~/.config/openbox/menu.xml
 ```
-Make changes as described in [md][FreeBSD Minimal Desktop] and run
+Make changes as described in [FreeBSD Minimal Desktop][md] and run
 ```
 sudo ./install
 ```

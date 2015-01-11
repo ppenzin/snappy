@@ -3,9 +3,9 @@
     - pkgng
     - optionsNG
  -}
-module Snappy.Platform.FreeBSD where
+module Config.Snappy.Platform.FreeBSD where
 
-import Snappy
+import Config.Snappy
 import System.Directory
 import System.Cmd
 import System.Exit

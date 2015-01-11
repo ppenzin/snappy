@@ -24,7 +24,7 @@ data-files:
 Library
   hs-source-dirs:      src
   exposed-modules:     Config.Snappy, Config.Snappy.Platform, Config.Snappy.Platform.FreeBSD, Config.Snappy.Shuffle, Config.Snappy.System
-  build-depends:       base
+  build-depends:       base, process, directory
 
 -- Test-suite test-all
 --   type:                exitcode-stdio-1.0

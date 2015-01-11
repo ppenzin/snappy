@@ -1,9 +1,9 @@
 {-# LANGUAGE ExistentialQuantification #-}
 {-| Snappy -- library of various system installation primitives
   -}
-module Snappy where
+module Config.Snappy where
 
-import Snappy.Shuffle
+import Config.Snappy.Shuffle
 
 {-|Thing is something installable
  -}

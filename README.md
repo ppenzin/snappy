@@ -1,12 +1,31 @@
 snappy
 ======
 
-Intention: batch installation tool. Right now congifures [md][FreeBSD minimal
+Intention: batch installation tool. As of now, support only FreeBSD
+
+## Building and installing
+```
+cabal configure
+cabal build
+cabal install
+```
+
+### TODO
+* Implement list shuffle
+* Auto configuration for ports -- config is dune, need to disable the screen
+
+### In testing
+* Provide infix operator for dependency ordering
+* Implement adding a line to a config file
+* Implement creating (copying) a config file
+
+## Minimal desktop example
+Right now congifures [md][FreeBSD minimal
 desktop] on Compaq Presario V6000.
 
-To compile and run;
+Install the main library first. After that, to compile and run;
 ```
-cd src && ghc Main.hs -o install
+cd examples/PresarioV6000-MinDesktop && ghc Main.hs -o install
 sudo ./install
 ```
 Currently that does not take care of many configuration files. The files need
@@ -26,14 +45,5 @@ sudo ./install
 ```
 again to set Nvidia XOrg configuration.
 
-
-### TODO
-* Implement list shuffle
-* Auto configuration for ports -- config is dune, need to disable the screen
-
-### In testing
-* Provide infix operator for dependency ordering
-* Implement adding a line to a config file
-* Implement creating (copying) a config file
 
 [md]:https://forums.freebsd.org/viewtopic.php?t=35308

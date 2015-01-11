@@ -1,8 +1,8 @@
 {-|Common system primitives, like editing files
  -}
-module Snappy.System where
+module Config.Snappy.System where
 
-import Snappy
+import Config.Snappy
 import System.IO
 import System.Cmd
 import System.Directory

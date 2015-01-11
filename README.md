@@ -1,7 +1,7 @@
 snappy
 ======
 
-Intention: batch installation tool. As of now, support only FreeBSD
+Intention: batch installation tool.
 
 ## Building and installing
 ```
@@ -20,8 +20,7 @@ cabal install
 * Implement creating (copying) a config file
 
 ## Minimal desktop example
-Right now congifures [md][FreeBSD minimal
-desktop] on Compaq Presario V6000.
+Congifures [FreeBSD minimal desktop][md] on Compaq Presario V6000.
 
 Install the main library first. After that, to compile and run;
 ```
@@ -39,7 +38,7 @@ to be edited:
 ~/.config/openbox/rc.xml
 ~/.config/openbox/menu.xml
 ```
-Make changes as described in [md][FreeBSD Minimal Desktop] and run
+Make changes as described in [FreeBSD Minimal Desktop][md] and run
 ```
 sudo ./install
 ```

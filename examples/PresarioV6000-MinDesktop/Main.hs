@@ -1,12 +1,13 @@
-{-|Miscelaneous install scripts
-   TODO move out of the project into dependent projects
+{-|Minimal Desktop for Compaq Presario V6000
  -}
-module Snappy.Scripts where
+module Main where
 
 import Data.Char
 import Snappy.Platform.FreeBSD
 import Snappy.System
 import Snappy
+
+main = ensure script
 
 {-|Miscelanneous things for personal use -}
 misc = [

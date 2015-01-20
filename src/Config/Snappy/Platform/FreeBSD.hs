@@ -7,7 +7,7 @@ module Config.Snappy.Platform.FreeBSD where
 
 import Config.Snappy
 import System.Directory
-import System.Cmd
+import System.Process
 import System.Exit
 
 -- |Root directory for ports tree 
@@ -39,8 +39,8 @@ instance Thing Port where
 --     putStrLn ("Extra options: " ++ show(allArguments))
     (setCurrentDirectory $ portsRoot
        ++ "/" ++ (category p) ++ "/" ++ (packageName p))
-    >> rawSystem "make" (extraOpts ++ ["config-recursive"]) 
-    >> rawSystem "make" ["install", "clean"]
+    >> callProcess "make" (extraOpts ++ ["config-recursive"]) 
+    >> callProcess "make" ["install", "clean"]
     >> return () -- TODO throw exceptions
     where extraOpts = optsArg "WITH" (withOpts p) ++
                       optsArg "WITHOUT" (withoutOpts p)
@@ -60,11 +60,10 @@ data Package = Package { name :: String }
 
 instance Thing Package where
   instantiate p =
-    rawSystem "pkg" ["install", name p] 
-    >> return () -- TODO throw exceptions
+    callProcess "pkg" ["install", name p] -- TODO throw exceptions
   isPresent p =
-    rawSystem "pkg" ["info", "-e", name p] 
-    >>= return . ( == ExitSuccess)
+    readProcessWithExitCode "pkg" ["info", "-e", name p] ""
+    >>= \(status, _, _) -> return (status == ExitSuccess)
 
 {-|A file in user's home directory
  -}

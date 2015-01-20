@@ -4,7 +4,7 @@ module Config.Snappy.System where
 
 import Config.Snappy
 import System.IO
-import System.Cmd
+import System.Process
 import System.Directory
 
 {-|Something to manage file contents
@@ -67,14 +67,13 @@ data GeneratedFile = GeneratedFile {
                      }
 
 instance Thing (GeneratedFile) where
-  instantiate gf = rawSystem (genFileCmd gf) (genFileCmdOpts gf)
-                >> return ()
+  instantiate gf = callProcess (genFileCmd gf) (genFileCmdOpts gf)
   isPresent gf = doesFileExist (genFilePath gf)
 
 -- |A command to run
 data Command = Command { cmd :: String, opts :: [String] }
 instance Thing Command where
   isPresent c  = return False
-  instantiate c = rawSystem (cmd c) (opts c) >> return ()
+  instantiate c = callProcess (cmd c) (opts c)
 
 command = Command { cmd = undefined, opts = []}

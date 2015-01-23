@@ -23,7 +23,7 @@ data-files:
 
 Library
   hs-source-dirs:      src
-  exposed-modules:     Config.Snappy, Config.Snappy.Platform, Config.Snappy.Platform.FreeBSD, Config.Snappy.Shuffle, Config.Snappy.System
+  exposed-modules:     Config.Snappy, Config.Snappy.Platform, Config.Snappy.Platform.FreeBSD, Config.Snappy.Platform.FreeBSD.PortTools, Config.Snappy.Shuffle, Config.Snappy.System
   build-depends:       base, process, directory
 
 -- Test-suite test-all
